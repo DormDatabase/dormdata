@@ -14,8 +14,7 @@ def server(database):
 	return conn.cursor(MySQLdb.cursors.DictCursor)
 
 def getDormNames(server):
-	sql = "SELECT dorm_name from dorms"
-	server.execute(sql)
+	server.execute("SELECT dorm_name from dorms")
 	dorms = server.fetchall()
 	return dorms
 
@@ -33,20 +32,23 @@ def getDormInfo(server, did):
 	return (row['dorm_name'], row['location'])
 
 def getReviews(server, did):
-	server.execute("SELECT comment, username from review where did = %s", (did,))
+	server.execute("SELECT comment, username from reviews where did = %s", (did,))
 	reviews = server.fetchall()
 	return reviews
 
 def averageRating(server, did):
-	server.execute("SELECT rating from review where did = %s", (did,))
+	server.execute("SELECT rating from reviews where did = %s", (did,))
 	ratings = server.fetchall()
-	int_list = list(map(lambda x: int(x), ratings))
-	return sum(int_list)/float(len(int_list))
+	ratingList = []
+	for rate in ratings:
+		ratingList.append(int(rate['rating']))
+
+	return round(sum(ratingList)/float(len(ratingList)), 2)
 
 def newReview(server, formData, dorm):
 	dormID = getDormID(server, dorm)
 	username = formData['username']
 	comment = formData['comment']
 	rating = formData['rating']
-	sql = "INSERT into reviews(did, username, rating, comment) values (%s, %s, %s, %s)" % (dormID, username, comment, rating)
+	server.execute("INSERT into reviews(did, username, rating, comment) values (%s, %s, %s, %s)", (dormID, username, rating, comment))
 
