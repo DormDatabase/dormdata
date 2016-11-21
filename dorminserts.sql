@@ -1,0 +1,15 @@
+insert into dorms(dorm_name, location) values ("Pomeroy", "West Side");
+insert into dorms(dorm_name, location) values ("Beebe", "West Side");
+insert into dorms(dorm_name, location) values ("Cazenove", "West Side");
+insert into dorms(dorm_name, location) values ("Shafer", "West Side");
+insert into dorms(dorm_name, location) values ("Munger", "West Side");
+insert into dorms(dorm_name, location) values ("Claflin", "West Side");
+insert into dorms(dorm_name, location) values ("Lake House", "West Side");
+insert into dorms(dorm_name, location) values ("Severance", "West Side");
+insert into dorms(dorm_name, location) values ("Tower Court", "West Side");
+insert into dorms(dorm_name, location) values ("Casa Cervantes", "West Side");
+insert into dorms(dorm_name, location) values ("Bates", "East Side");
+insert into dorms(dorm_name, location) values ("Freeman", "East Side");
+insert into dorms(dorm_name, location) values ("McAfee", "East Side");
+insert into dorms(dorm_name, location) values ("Dower", "East Side");
+insert into dorms(dorm_name, location) values ("Stone-Davis", "East Side");
