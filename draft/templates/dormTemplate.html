@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://cs.wellesley.edu/~dormdata/draft/templates/stylesheet.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<meta charset="utf-8">
+	<title> {{dormName}} </title>
+</head>
+
+<body>
+	<h1> {{dormName}} </h1>
+	<p> <a href="../"> Home Page </a> </p>
+	<p> This dorm is located: <b>{{dormLocation}} </b></p>
+	<p> Average rating for {{dormName}} : <b>{{dormRating}}</b></p>
+	<p> If you'd like to review this dorm, use the form below. </p>
+	<form method=POST action="/view/{{dormName}}">
+	<br>
+		<div class="reviewbox">
+		<p>Review:
+		<br>
+		<br>
+    	<input type="text" style="width:250px;height:150px;" name="comment">
+    	<br>
+    	<br>
+    	<p>Rating (5 being the strongest endorsement of a dorm; 1 being the lowest):
+    	
+    	<select name="rating">
+    		<option value="1">1</option>
+    		<option value="2">2</option>
+    		<option value="3">3</option>
+    		<option value="4">4</option>
+    		<option value="5">5</option>
+    	</select>
+    	<br>
+    	<p>Your username:
+    	<br>
+    	<input type="text" name="username">
+    	<input type="submit" name="submit" value="submit"> </input>
+    	</div>
+  	</form>
+	<p> Here are all the reviews for {{dormName}}:
+	{% for review in dormReviews %}
+		<div class="submitted_reviews">
+		<p> <i>{{review['comment']}}</i> </p>
+		<p> Written by {{review['username']}}
+		</div>
+	{% endfor %}
+	</p>
+	
+
+  
+</body>
+</html>

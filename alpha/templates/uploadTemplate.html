@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://cs.wellesley.edu/~dormdata/alpha/templates/stylesheet.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<meta charset="utf-8">
+	<title> Upload </title>
+</head>
+
+<body>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				<p> <b> {{message}} </b>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	
+<p> <a href="../"> Home Page </a> </p>
+<p> <a href="../view/{{dormName}}"> Return to {{dormName}} </a> </p>
+

@@ -1,0 +1,38 @@
+h1 {
+	color: darkblue;
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+}
+
+p {
+	font-family: 'Roboto', sans-serif;
+}
+
+img {
+	height: 500px;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.reviewbox {
+	border-width: 5px;
+	border-style: solid;
+	border-color: darkblue;
+	padding: 5px;
+	margin: 5px;
+	width: 70%;
+}
+
+.submitted_reviews {
+	width: 30%;
+	display: inline-block; 
+	vertical-align: top;		
+	border-width: 5px;
+	border-color: darkblue;
+	border-style: solid;     		
+	padding: 5px; 
+   	margin: 5px; 
+	column-span:1;
+}

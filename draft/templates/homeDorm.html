@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="http://cs.wellesley.edu/~dormdata/draft/templates/stylesheet.css">
+	<meta charset="utf-8">
+	<title> Dorm Database </title>
+</head>
+
+<body>
+	<h1> Dorm Database </h1>
+
+	<p> Welcome to Dorm Database! To view a dorm's page, select the dorm from the drop-down menu. </p>
+	
+	<form method=POST action="/">
+    	<label for "dorm"><p>Dorms:</label>
+    	<select name="dorm-select">
+      	<option value="none">Choose One</option>
+      	{% for dorm in dorms %}
+      		<option name="dormname" value="{{dorm['dorm_name']}}"> {{dorm['dorm_name']}} </option>
+      	{% endfor %}
+
+		</select>
+    	<input type="submit" name="submit-btn" value="Choose">
+  	</form>
+  
+  	
+  <br>
+  <br>
+  <br>
+  <img id = "map" src="http://cs.wellesley.edu/~dormdata/draft/templates/wellesleymap.jpg"></img>	
+  <br>
+  <br>
+  <br>
+  <a href="https://www.wellesley.edu/reslife/halls"> Wellesley's Official Page for Dorms </a>
+
+</body>
+</html>

@@ -7,7 +7,7 @@ Debug = False
 
 def server(database):
 	'''Returns a cursor to the database'''
-	dsn = dbconn2.read_cnf('/home/cs304/.my.cnf')
+	dsn = dbconn2.read_cnf('/students/dormdata/.my.cnf')
 	dsn['db'] = database
 	conn = dbconn2.connect(dsn)
 	conn.autocommit(True)
@@ -42,7 +42,8 @@ def averageRating(server, did):
 	ratingList = []
 	for rate in ratings:
 		ratingList.append(int(rate['rating']))
-
+	if (len(ratingList) == 0):
+		return 0
 	return round(sum(ratingList)/float(len(ratingList)), 2)
 
 def newReview(server, formData, dorm):

@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://cs.wellesley.edu/~dormdata/alpha/templates/stylesheet.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+	<meta charset="utf-8">
+	<title> {{dormName}} </title>
+</head>
+
+<body>
+	<h1> {{dormName}} </h1>
+
+	<p> <a href="../"> Home Page </a> </p>
+	<p> This dorm is located: <b>{{dormLocation}} </b></p>
+	<p> Average rating for {{dormName}} : <b>{{dormRating}}</b></p>
+	<br>
+	<br>
+	<div class="w3-content w3-display-container" id="gallery"><br>
+
+	</div>
+	
+	<p> If you'd like to review {{dormName}}, use the form below. </p>
+	<div class="reviewbox">
+	<form method=POST action="/view/{{dormName}}">
+	<br>
+		<p>Review:
+		<br>
+		<br>
+    	<input type="text" style="width:250px;height:150px;" name="comment">
+    	<br>
+    	<br>
+    	<p>Rating (5 being the strongest endorsement of a dorm; 1 being the lowest):
+    	
+    	<select name="rating">
+    		<option value="1">1</option>
+    		<option value="2">2</option>
+    		<option value="3">3</option>
+    		<option value="4">4</option>
+    		<option value="5">5</option>
+    	</select>
+    	<br>
+    	<p>Your username:
+    	<br>
+    	<input type="text" name="username">
+    	<input type="submit" name="submit" value="submit"> </input>
+  	</form>
+  	</div>
+  	
+  	<p>Have a picture of {{dormName}}? Upload it here!
+  	<form action = "/upload/{{dormName}}" method = "POST" enctype = "multipart/form-data">
+  		<input type = "file" name = "file" />
+  		<input type = "submit"/>
+  	</form>
+  	
+  	
+  	
+	<p> Here are all the reviews for {{dormName}}:
+	{% for review in dormReviews %}
+		<div class="submitted_reviews">
+		<p> <i>{{review['comment']}}</i> </p>
+		<p> Written by {{review['username']}}
+		</div>
+	{% endfor %}
+	</p>
+	
+
+  
+	<script type="text/javascript">
+	
+	function setUp() {
+		var x = [];
+		{% for pic in dormPics %}
+			var pic1 = "{{pic['address']|safe}}";
+			x.push(pic1);
+			document.getElementById("gallery").innerHTML = document.getElementById("gallery").innerHTML + "<img id="+pic1 + " src='http://cs.wellesley.edu/~dormdata/alpha/images/"+pic1+"' style='width:50%'>";
+		{% endfor %}
+		if (x.length>0){
+			document.getElementById("gallery").innerHTML = document.getElementById("gallery").innerHTML + "<br><a class='w3-btn' onclick='plusDivs(-1)'>&#10094;</a><a class='w3-btn' onclick='plusDivs(1)'>&#10095;</a>";
+		}
+		return x;
+	}
+	
+	var x = setUp()
+	var slideIndex = 1;
+	showDivs(slideIndex);
+
+	function plusDivs(n) {
+		showDivs(slideIndex += n);
+	}
+
+	function showDivs(n) {
+		var i;
+		if (n > x.length) {
+			slideIndex = 1;
+		}
+		if (n < 1) {
+			slideIndex = x.length;
+		}
+		for (i = 0; i < x.length; i++) {
+			document.getElementById(x[i]).style.display = "none";
+			
+		}
+		document.getElementById(x[slideIndex-1]).style.display = "block";
+	}
+	</script>
+</body>
+</html>
