@@ -1,6 +1,8 @@
 import dbconn2
 import MySQLdb
 import os
+from werkzeug.security import generate_password_hash, \
+	check_password_hash
 
 db = 'dormdata_db'
 Debug = False
@@ -46,20 +48,40 @@ def averageRating(server, did):
 		return 0
 	return round(sum(ratingList)/float(len(ratingList)), 2)
 
-def newReview(server, formData, dorm):
+def newReview(server, formData, dorm, username):
 	dormID = getDormID(server, dorm)
-	username = formData['username']
+	user = username
 	comment = formData['comment']
 	rating = formData['rating']
-	server.execute("INSERT into reviews(did, username, rating, comment) values (%s, %s, %s, %s)", (dormID, username, rating, comment))
+	server.execute("INSERT into reviews(did, username, rating, comment) values (%s, %s, %s, %s)", (dormID, user, rating, comment))
 	
-def newPic(server, filename, dorm):
+def newPic(server, filename, dorm, username):
 	dormID = getDormID(server, dorm)
-	server.execute("INSERT into pictures(did, address) values (%s, %s)", (dormID, filename))
+	server.execute("INSERT into pictures(did, username address) values (%s, %s)", (dormID, username, filename))
 
 def getPics(server, did):
 	server.execute("SELECT address from pictures where did = %s", (did,))
 	pics = server.fetchall()
 	return pics
 	
+def getUser(server, username):
+	server.execute("SELECT * from people where username = %s", (username,))
+	row = server.fetchone()
+	if row == None:
+		return None:
+	return row
 
+def hashPassword(password):
+	return generate_password_hash(password)
+
+def matchPassword(db_pass, password):
+	return check_password_hash(db_pass, password)
+
+def isWellesley(username):
+	'''Idealy, this would be connected to Wellesley's CAS'''
+	return "@wellesley" in username
+
+def newPerson(server, formData):
+	user = formData['username']
+	hashed = generate_password_hash(formData['password'])
+	server.execute("INSERT into person(username, password) values (%s, %s)", (user,hashed))

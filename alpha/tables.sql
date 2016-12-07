@@ -33,4 +33,13 @@ create table reviews (
 	foreign key(did) references dorms(did) on delete cascade,
 	foreign key(username) references people(username) on delete cascade
 )
+
+drop table if exists pictures;
+create table pictures (
+	did int not null,
+	username varchar(50) not null, 
+	address varchar(200),
+	foreign key(did) references dorms(did) on delete cascade,
+	foreign key(username) references people(username) on delete cascade
+)
 ENGINE = InnoDB;

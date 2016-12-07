@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="http://cs.wellesley.edu/~dormdata/alpha/templates/stylesheet.css">
+	<title> Login </title>
+</head>
+
+<body>
+
+	<h1>Login</h1>
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				<p> <b> {{message}} </b> </p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+
+	<form method=POST action="/login">
+		<label><p>Email:</p></label>
+		<input type="text" name="username">
+		<label><p>Password:</p></label>
+		<input type="text" name="password">
+	</form>
+
+</body>
+</html>
