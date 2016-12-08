@@ -11,6 +11,8 @@
 
 	<h1>Login</h1>
 
+	<p> <a href="../"> Home Page </a> </p>
+
 	{% with messages = get_flashed_messages() %}
 		{% if messages %}
 			{% for message in messages %}
@@ -23,7 +25,8 @@
 		<label><p>Email:</p></label>
 		<input type="text" name="username">
 		<label><p>Password:</p></label>
-		<input type="text" name="password">
+		<input type="password" name="password">
+		<input type="submit" name="submit-btn" value="Login">
 	</form>
 
 </body>

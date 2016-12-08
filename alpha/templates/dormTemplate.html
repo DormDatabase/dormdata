@@ -11,11 +11,25 @@
 </head>
 
 <body>
-	{{login_status}}
+	{% if login_status %}
+		<p>{{username}}</p>
+		<a href='/logout'>Logout</a>
+	{% else %}
+		<a href='/login'>Login</a>
+	{% endif %}
 
 	<h1> {{dormName}} </h1>
 
 	<p> <a href="../"> Home Page </a> </p>
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				<p> <b> {{message}} </b>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	
 	<p> This dorm is located: <b>{{dormLocation}} </b></p>
 	<p> Average rating for {{dormName}} : <b>{{dormRating}}</b></p>
 	<br>

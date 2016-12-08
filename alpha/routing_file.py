@@ -1,4 +1,3 @@
-import cgi_utils_sda
 import dbconn2
 import dorms
 from flask import Flask, render_template, flash, request, redirect, url_for, session
@@ -29,9 +28,10 @@ def index():
 			
 	if 'username' in session:
 		username = session['username']
-		login_status = "<p>username</p>"
+		login_status = True
+		return render_template("homeDorm.html", dorms=dorm_name, login_status=login_status, username=username)
 	else:
-		login_status = "<a href='/loginTemplate.html>Login</a>"
+		login_status = False
 	return render_template("homeDorm.html", dorms=dorm_name, login_status=login_status)
 
 @app.route("/view/<dorm>", methods=["GET","POST"])
@@ -45,12 +45,13 @@ def view(dorm):
 	dormPics = dorms.getPics(cursor, dormID)
 	if 'username' in session:
 		username = session['username']
-		login_status = "<p>username</p>"
+		login_status = True
 		if request.method == "POST":
 			dorms.newReview(cursor, request.form, dorm, username)
 			return redirect(url_for("view", dorm=dorm))
+		return render_template("dormTemplate.html", dormName = dorm, dormLocation = location, dormReviews = reviews, dormRating = average_rating, dormPics = dormPics, login_status=login_status, username=username)
 	else:
-		login_status = "<a href='/login.html>Login</a>"
+		login_status = False
 		flash("Must be logged in to review.")
 	return render_template("dormTemplate.html", dormName = dorm, dormLocation = location, dormReviews = reviews, dormRating = average_rating, dormPics = dormPics, login_status=login_status)
 	
@@ -59,7 +60,7 @@ def upload(dorm):
 	cursor = dorms.server(db)
 	if 'username' in session:
 		username = session['username']
-		login_status = "<p>username</p>"
+		login_status = True
 		if request.method == 'POST':
 			f = request.files['file']
 			if f.filename == "":
@@ -74,29 +75,30 @@ def upload(dorm):
 					flash("File uploaded successfully")
 				else:
 					flash("File must be of type png, jpg, jpeg, or gif")
+		return render_template("uploadTemplate.html", dormName = dorm, login_status=login_status, username=username)
 	else:
-		login_status = "<a href='/login.html>Login</a>"
+		login_status = False
 		flash("Must be logged in to upload pictures.")
 	return render_template("uploadTemplate.html", dormName = dorm, login_status=login_status)
 	
 @app.route("/login", methods = ["GET", "POST"])
 def login():
 	cursor = dorms.server(db)
-	if request.method = 'POST':
-		user = request.['username']
-		stored = dorm.getUser(cursor, user)
-		if stored['username'] == user:
-			if matchPassword(stored['password'],request.['password']):
+	if request.method == 'POST':
+		user = request.form['username']
+		stored = dorms.getUser(cursor, user)
+		if stored != None and stored['username'] == user:
+			if dorms.matchPassword(stored['password'],request.form['password']):
 				session['username'] = request.form['username']
 				return redirect(url_for('index'))
 			flash("Password was incorrect.")
-		if dorms.isWellesley(user):
+		elif dorms.isWellesley(user):
 			dorms.newPerson(cursor, request.form)
 			session['username'] = request.form['username']
 			return redirect(url_for('index'))
 		else:
 			flash("Must be a Wellesley email.")
-	return render_template("loginTemplate.hmtl")
+	return render_template("loginTemplate.html")
 
 @app.route("/logout")
 def logout():
